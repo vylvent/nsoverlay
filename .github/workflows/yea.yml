@@ -1,0 +1,32 @@
+name: Zip n Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  zip-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create ZIP archive
+        run: |
+          zip -r "${{ github.event.repository.name }}-${{ github.ref_name }}.zip" . -x '*.git*' '*.github*' '*.md'
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          body: Check changelogs in [changelogs.md](https://github.com/vylvent/nsoverlay/blob/main/changelogs.md)
+          name: ${{ github.event.repository.name }} ${{ github.ref_name }} Release
+          files: ${{ github.event.repository.name }}-${{ github.ref_name }}.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
