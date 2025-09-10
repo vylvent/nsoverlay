@@ -1,4 +1,5 @@
 ## 1.2
+* fixed directory structure?
 * added custom crosshair (Thanks to [Crosshair TXF](https://modrinth.com/resourcepack/crosshair-txf))
 * also added old totem back (cause i think it looks cool)
 
